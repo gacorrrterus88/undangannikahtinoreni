@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wedding Tino & Reni</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display&family=Montserrat&display=swap" rel="stylesheet">
+
+<style>
+body {
+    margin:0;
+    font-family:'Montserrat', sans-serif;
+    background:#0c0c0c;
+    color:white;
+    text-align:center;
+}
+
+/* COVER */
+#cover {
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)),
+    url('https://images.unsplash.com/photo-1522673607200-164d1b6ce486');
+    background-size:cover;
+}
+
+/* BUTTON */
+.btn {
+    background:#D4AF37;
+    color:black;
+    padding:12px 25px;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    margin:10px;
+}
+
+/* CONTENT */
+#content { display:none; }
+
+.card {
+    background:#1a1a1a;
+    margin:20px;
+    padding:25px;
+    border-radius:15px;
+    box-shadow:0 0 20px rgba(212,175,55,0.2);
+}
+
+.gold { color:#D4AF37; }
+
+/* GALLERY */
+.gallery img {
+    width:90%;
+    margin:10px;
+    border-radius:15px;
+}
+
+/* RESPONSIVE */
+h1 { font-size:40px; }
+@media(max-width:480px){
+    h1 { font-size:28px; }
+}
+</style>
+</head>
+
+<body>
+
+<audio id="musik" loop controls>
+<source src="https://cdn.pixabay.com/audio/2022/03/15/audio_5c6e6e3f8d.mp3">
+</audio>
+
+<div id="cover">
+    <h3>The Wedding Of</h3>
+    <h1 class="gold" style="font-family:'Playfair Display'">
+        Tino & Reni
+    </h1>
+    <p id="namaTamu"></p>
+
+    <button class="btn" onclick="openInvite()">💌 Buka Undangan</button>
+</div>
+
+<div id="content">
+
+<div class="card">
+<h2 class="gold">Countdown</h2>
+<p id="countdown"></p>
+</div>
+
+<div class="card">
+<h2 class="gold">Mempelai</h2>
+<p>Tino Gunawan & Reni Ramadhanti</p>
+</div>
+
+<div class="card">
+<h2 class="gold">Acara</h2>
+<p>08 Mei 2026</p>
+<p>Gedung EV Garden - Jambi</p>
+<a href="https://maps.app.goo.gl/VNkrUxZnvgxJDPFB9" class="btn">📍 Lokasi</a>
+</div>
+
+<div class="card gallery">
+<h2 class="gold">Galeri</h2>
+<img src="https://images.unsplash.com/photo-1520857014576-2c4f4c972b57">
+<img src="https://images.unsplash.com/photo-1519741497674-611481863552">
+</div>
+
+<div class="card">
+<h2 class="gold">RSVP</h2>
+<input type="text" id="nama" placeholder="Nama Anda"><br><br>
+<select id="hadir">
+<option>Hadir</option>
+<option>Tidak Hadir</option>
+</select><br><br>
+
+<button class="btn" onclick="kirimWA()">Kirim via WhatsApp</button>
+</div>
+
+</div>
+
+<script>
+function openInvite(){
+    document.getElementById("cover").style.display="none";
+    document.getElementById("content").style.display="block";
+    document.getElementById("musik").play();
+}
+
+/* NAMA TAMU */
+let params = new URLSearchParams(window.location.search);
+let tamu = params.get("to");
+if(tamu){
+    document.getElementById("namaTamu").innerText = "Kepada Yth: " + tamu;
+}
+
+/* COUNTDOWN */
+let target = new Date("May 8, 2026 08:00:00").getTime();
+setInterval(()=>{
+let now = new Date().getTime();
+let sisa = target - now;
+
+let d = Math.floor(sisa/(1000*60*60*24));
+let h = Math.floor((sisa%(1000*60*60*24))/(1000*60*60));
+let m = Math.floor((sisa%(1000*60*60))/(1000*60));
+
+document.getElementById("countdown").innerText =
+d+" Hari "+h+" Jam "+m+" Menit";
+},1000);
+
+/* WHATSAPP RSVP */
+function kirimWA(){
+let nama = document.getElementById("nama").value;
+let hadir = document.getElementById("hadir").value;
+
+let pesan = `Halo, saya ${nama}, saya ${hadir} di acara pernikahan.`;
+let url = "https://wa.me/6282233447865?text="+encodeURIComponent(pesan);
+
+window.open(url);
+}
+</script>
+
+</body>
+</html>
